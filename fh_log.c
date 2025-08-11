@@ -2,7 +2,7 @@
  * @Author: ischen.x ischen.x@foxmail.com
  * @Date: 2025-08-06 17:10:15
  * @LastEditors: ischen.x ischen.x@foxmail.com
- * @LastEditTime: 2025-08-08 11:08:38
+ * @LastEditTime: 2025-08-08 13:17:22
  * 
  * Copyright (c) 2025 by fhchengz, All Rights Reserved. 
  */
@@ -32,17 +32,17 @@
 #include "fh_log.h"
 #include <string.h>
 
-static void (*log_output)(const char* str) = NULL;
+static output_fn log_output = NULL;
 static log_time_fn log_get_time = NULL;
 
-void log_init(void (*output_func)(const char *str), log_time_fn time_func)
+void log_init(output_fn output ,log_time_fn time_func)
 {
-    if (output_func != NULL && time_func != NULL) {
-        log_output = output_func;
+    if (output != NULL && time_func != NULL) {
+        log_output = output;
         log_get_time = time_func;
         LOGI("Log system initialized with output function: %p and time function: %p", (void *)log_output, (void *)log_get_time);
     } else {
-        LOGE("Log initialization failed: output_func or time_func is NULL");
+        LOGE("Log initialization failed: output or time_func is NULL");
     }
 }
 

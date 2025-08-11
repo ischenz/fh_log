@@ -1,7 +1,6 @@
 #ifndef __LOG_H__
 #define __LOG_H__
 
-#include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
 
@@ -28,9 +27,9 @@ typedef enum {
 
 /* 获取毫秒时间戳的函数指针（由用户提供） */
 typedef uint32_t (*log_time_fn)(void);
+typedef void (*output_fn)(const char *str);
 
-void log_init(void (*output_func)(const char *str), log_time_fn time_func);
-
+void log_init(output_fn output ,log_time_fn time_func);
 void log_printf(log_level_t level, const char *fmt, ...);
 
 #ifdef LOG_ENABLE
