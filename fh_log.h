@@ -1,3 +1,11 @@
+/*
+ * @Author: ischen.x ischen.x@foxmail.com
+ * @Date: 2026-04-28 15:10:42
+ * @LastEditors: ischen.x ischen.x@foxmail.com
+ * @LastEditTime: 2026-05-21 17:32:54
+ * 
+ * Copyright (c) 2026 by fhchengz, All Rights Reserved. 
+ */
 #ifndef __LOG_H__
 #define __LOG_H__
 
@@ -32,11 +40,16 @@ typedef void (*output_fn)(const char *str);
 void log_init(output_fn output ,log_time_fn time_func);
 void log_printf(log_level_t level, const char *fmt, ...);
 
+#define __FILENAME__ ( \
+    (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : \
+    (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)) \
+)
+
 #ifdef LOG_ENABLE
-#define LOGE(fmt, ...) log_printf(LOG_ERROR, "%s:%d %s(): " fmt "\r\n", __FILE__, __LINE__, __func__, ##__VA_ARGS__)
-#define LOGW(fmt, ...) log_printf(LOG_WARN,  "%s:%d %s(): " fmt "\r\n", __FILE__, __LINE__, __func__, ##__VA_ARGS__)
-#define LOGI(fmt, ...) log_printf(LOG_INFO,  "%s:%d %s(): " fmt "\r\n", __FILE__, __LINE__, __func__, ##__VA_ARGS__)
-#define LOGD(fmt, ...) log_printf(LOG_DEBUG, "%s:%d %s(): " fmt "\r\n", __FILE__, __LINE__, __func__, ##__VA_ARGS__)
+#define LOGE(fmt, ...) log_printf(LOG_ERROR, "%s:%d %s(): " fmt "\r\n", __FILENAME__, __LINE__, __func__, ##__VA_ARGS__)
+#define LOGW(fmt, ...) log_printf(LOG_WARN,  "%s:%d %s(): " fmt "\r\n", __FILENAME__, __LINE__, __func__, ##__VA_ARGS__)
+#define LOGI(fmt, ...) log_printf(LOG_INFO,  "%s:%d %s(): " fmt "\r\n", __FILENAME__, __LINE__, __func__, ##__VA_ARGS__)
+#define LOGD(fmt, ...) log_printf(LOG_DEBUG, "%s:%d %s(): " fmt "\r\n", __FILENAME__, __LINE__, __func__, ##__VA_ARGS__)
 
 #else
 #define LOGE(fmt, ...) 
